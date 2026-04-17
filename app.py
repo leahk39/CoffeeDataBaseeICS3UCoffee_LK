@@ -1,6 +1,6 @@
 import database
 
-#test1
+#test2
 
 MENU_PROMPT = """--Coffee Bean App--
 
