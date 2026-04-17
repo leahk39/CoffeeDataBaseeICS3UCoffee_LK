@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>database.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #5f826b; font-style: italic;}
+.s1 { color: #bcbec4;}
+.s2 { color: #cf8e6d;}
+.s3 { color: #bcbec4;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+database.py</font>
+</center></td></tr></table>
+<pre><span class="s0">&quot;&quot;&quot; 
+This is the main mod with the database code in it 
+&quot;&quot;&quot;</span>
+
+<span class="s2">import </span><span class="s1">sqlite3</span>
+
+<span class="s1">CREATE_BEANS_TABLE </span><span class="s3">= </span><span class="s4">&quot;CREATE TABLE IF NOT EXISTS beans (id INTEGER PRIMARY KEY, name TEXT, method TEXT, rating INTEGER)&quot;</span>
+
+<span class="s1">INSERT_BEAN </span><span class="s3">= </span><span class="s4">&quot;INSERT INTO beans (name, method, rating) VALUES (?, ?, ?)&quot;</span>
+
+<span class="s1">GET_ALL_BEANS </span><span class="s3">= </span><span class="s4">&quot;SELECT * FROM beans&quot;</span>
+
+<span class="s1">GET_ALL_BEANS_BY_NAME </span><span class="s3">= </span><span class="s4">&quot;SELECT * FROM beans WHERE name = ?;&quot;</span>
+
+<span class="s1">GET_BEST_PREPARATION_FOR_BEAN </span><span class="s3">= </span><span class="s4">&quot;&quot;&quot; 
+SELECT * FROM beans  
+WHERE name = ? 
+ORDER BY rating DESC 
+LIMIT 1;&quot;&quot;&quot;</span>
+
+
+<span class="s2">def </span><span class="s1">connect</span><span class="s3">():</span>
+    <span class="s2">return </span><span class="s1">sqlite3</span><span class="s3">.</span><span class="s1">connect</span><span class="s3">(</span><span class="s4">&quot;data.db&quot;</span><span class="s3">)</span>
+
+<span class="s2">def </span><span class="s1">create_tables</span><span class="s3">(</span><span class="s1">connection</span><span class="s3">):</span>
+    <span class="s2">with </span><span class="s1">connection</span><span class="s3">:</span>
+        <span class="s1">connection</span><span class="s3">.</span><span class="s1">execute</span><span class="s3">(</span><span class="s1">CREATE_BEANS_TABLE</span><span class="s3">)</span>
+
+<span class="s2">def </span><span class="s1">add_bean</span><span class="s3">(</span><span class="s1">connection</span><span class="s3">, </span><span class="s1">name</span><span class="s3">, </span><span class="s1">method</span><span class="s3">, </span><span class="s1">rating</span><span class="s3">):</span>
+    <span class="s2">with </span><span class="s1">connection</span><span class="s3">:</span>
+        <span class="s1">connection</span><span class="s3">.</span><span class="s1">execute</span><span class="s3">(</span><span class="s1">INSERT_BEAN</span><span class="s3">, (</span><span class="s1">name</span><span class="s3">, </span><span class="s1">method</span><span class="s3">, </span><span class="s1">rating</span><span class="s3">))</span>
+
+<span class="s2">def </span><span class="s1">get_all_beans</span><span class="s3">(</span><span class="s1">connection</span><span class="s3">):</span>
+    <span class="s2">with </span><span class="s1">connection</span><span class="s3">:</span>
+        <span class="s2">return </span><span class="s1">connection</span><span class="s3">.</span><span class="s1">execute</span><span class="s3">(</span><span class="s1">GET_ALL_BEANS</span><span class="s3">).</span><span class="s1">fetchall</span><span class="s3">()</span>
+
+<span class="s2">def </span><span class="s1">get_beans_by_name</span><span class="s3">(</span><span class="s1">connection</span><span class="s3">, </span><span class="s1">name</span><span class="s3">):</span>
+    <span class="s2">with </span><span class="s1">connection</span><span class="s3">:</span>
+        <span class="s2">return </span><span class="s1">connection</span><span class="s3">.</span><span class="s1">execute</span><span class="s3">(</span><span class="s1">GET_ALL_BEANS_BY_NAME</span><span class="s3">, (</span><span class="s1">name</span><span class="s3">,)).</span><span class="s1">fetchall</span><span class="s3">()</span>
+
+<span class="s2">def </span><span class="s1">get_best_preparation_for_bean</span><span class="s3">(</span><span class="s1">connection</span><span class="s3">, </span><span class="s1">name</span><span class="s3">):</span>
+    <span class="s2">with </span><span class="s1">connection</span><span class="s3">:</span>
+        <span class="s2">return </span><span class="s1">connection</span><span class="s3">.</span><span class="s1">execute</span><span class="s3">(</span><span class="s1">GET_BEST_PREPARATION_FOR_BEAN</span><span class="s3">, (</span><span class="s1">name</span><span class="s3">,)).</span><span class="s1">fetchall</span><span class="s3">()</span></pre>
+</body>
+</html>
