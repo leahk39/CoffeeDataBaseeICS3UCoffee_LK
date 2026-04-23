@@ -52,7 +52,7 @@ def prompt_find_bean(connection, name):
     beans = database.get_beans_by_name(connection, name)
 
     for bean in beans:
-        print(f"{bean[1]} ({bean[2]}) - {bean[3]}/100")
+        print(f"{bean[1]} ({bean[2]}) - {bea5n[3]}/100")
 
 def prompt_find_best_method(connection, name):
     name = input("Enter bean name to find: ")
@@ -61,8 +61,8 @@ def prompt_find_best_method(connection, name):
     print(f"The best preparation method for {name} is: {best_method[0]}")
 
 def prompt_delete_bean(connection):
-    name = input("Enter bean name to find: ")
-    best_method = database.delete_bean_by_name(connection, name)
+    name = input("Enter bean name to delete: ")
+    bean_delete = database.delete_bean_by_name(connection, name)
 
     print("bean deleted")
 
