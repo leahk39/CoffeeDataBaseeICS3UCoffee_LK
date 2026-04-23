@@ -20,10 +20,13 @@ ORDER BY rating DESC
 LIMIT 1;"""
 
 DELETE_BEAN_BY_NAME = """
-SELECT * FROM beans
-WHERE name = ?
-DELETE bean FROM beans
-LIMIT 1;"""
+DELETE FROM beans
+WHERE name = ?;"""
+
+SHOW_BEAN_RANGE = """
+SELECT * 
+FROM beans
+WHERE rating < ?;"""
 
 def connect():
     return sqlite3.connect("data.db")
@@ -51,3 +54,7 @@ def get_best_preparation_for_bean(connection, name):
 def delete_bean_by_name(connection, name):
     with connection:
         return connection.execute(DELETE_BEAN_BY_NAME, (name,)).fetchall()
+
+def show_bean_range(connection, name):
+    with connection:
+        return connection.execute(SHOW_BEAN_RANGE, (name,)).fetchall()

@@ -11,7 +11,8 @@ Please choose one of these options:
 3) Find a bean by name.
 4) See which preparation method is best for a bean.
 5) Delete bean by name or id
-6) Exit.
+6) Show beans in same rating range
+7) Exit.
 
 Your selection:"""
 
@@ -20,7 +21,7 @@ def menu():
     connection = database.connect()
     database.create_tables(connection)
 
-    while(user_input := input(MENU_PROMPT)) != "6":
+    while(user_input := input(MENU_PROMPT)) != "7":
         if user_input == "1":
             prompt_add_new_bean(connection)
         elif user_input == "2":
@@ -31,6 +32,8 @@ def menu():
             prompt_find_best_method(connection)
         elif user_input == "5":
             prompt_delete_bean(connection)
+        elif user_input == "6":
+            prompt_bean_rating_range(connection)
         else:
             print("Invalid input, please try again.")
 
@@ -65,6 +68,10 @@ def prompt_delete_bean(connection):
     bean_delete = database.delete_bean_by_name(connection, name)
 
     print("bean deleted")
+
+def prompt_bean_rating_range(connection):
+    range = input("Enter range to show: ")
+    bean_range = database.show_bean_range(connection, name)
 
 
 menu()
