@@ -1,17 +1,17 @@
 import database
 
-#test2
+# test2
 
-MENU_PROMPT = """--Coffee Bean App--
+MENU_PROMPT = """--Drink App--
 
 Please choose one of these options:
 
-1) Add a new bean.
-2) See all beans.
-3) Find a bean by name.
-4) See which preparation method is best for a bean.
-5) Delete bean by name or id
-6) Show beans in same rating range
+1) Add a new drink.
+2) See all drinks.
+3) Find a drink by name.
+4) See which flavor is best for a drink.
+5) Delete drink by name
+6) Show drinks in same rating range
 7) Exit.
 
 Your selection:"""
@@ -21,57 +21,67 @@ def menu():
     connection = database.connect()
     database.create_tables(connection)
 
-    while(user_input := input(MENU_PROMPT)) != "7":
+    while (user_input := input(MENU_PROMPT)) != "7":
         if user_input == "1":
-            prompt_add_new_bean(connection)
+            prompt_add_new_drink(connection)
         elif user_input == "2":
-            prompt_see_all_beans(connection)
+            prompt_see_all_drinks(connection)
         elif user_input == "3":
-            prompt_find_bean(connection)
+            prompt_find_drink(connection)
         elif user_input == "4":
-            prompt_find_best_method(connection)
+            prompt_find_best_flavor(connection)
         elif user_input == "5":
-            prompt_delete_bean(connection)
+            prompt_delete_drink(connection)
         elif user_input == "6":
-            prompt_bean_rating_range(connection)
+            prompt_drink_rate_range(connection)
         else:
             print("Invalid input, please try again.")
 
-def prompt_add_new_bean(connection):
-    name = input("Enter bean name: ")
-    method = input("Enter how you've prepared it: ")
+
+def prompt_add_new_drink(connection):
+    name = input("Enter drink name: ")
+    flavor = input("Enter your favorite flavor it: ")
     rating = int(input("Enter your rating score (0-100): "))
 
-    database.add_bean(connection, name, method, rating)
+    database.add_drink(connection, name, flavor, rating)
 
-def prompt_see_all_beans(connection):
-    beans = database.get_all_beans(connection)
 
-    for bean in beans:
-        print(f"{bean[1]} ({bean[2]}) - {bean[3]}/100")
+def prompt_see_all_drinks(connection):
+    drinks = database.get_all_drinks(connection)
 
-def prompt_find_bean(connection, name):
-    name = input("Enter bean name to find: ")
-    beans = database.get_beans_by_name(connection, name)
+    for drink in drinks:
+        print(f"{drink[1]} ({drink[2]}) - {drink[3]}/100")
 
-    for bean in beans:
-        print(f"{bean[1]} ({bean[2]}) - {bea5n[3]}/100")
 
-def prompt_find_best_method(connection, name):
-    name = input("Enter bean name to find: ")
-    best_method = database.get_best_preparation_for_bean(connection, name)
+def prompt_find_drink(connection, name):
+    name = input("Enter drink name to find: ")
+    drinks = database.get_drinks_by_name(connection, name)
 
-    print(f"The best preparation method for {name} is: {best_method[0]}")
+    for drink in drinks:
+        print(f"{drink[1]} ({drink[2]}) - {drink[3]}/100")
 
-def prompt_delete_bean(connection):
-    name = input("Enter bean name to delete: ")
-    bean_delete = database.delete_bean_by_name(connection, name)
 
-    print("bean deleted")
+def prompt_find_best_flavor(connection, name):
+    name = input("Enter drink name to find: ")
+    best_flavor = database.get_best_flavor_for_drink(connection, name)
 
-def prompt_bean_rating_range(connection):
-    range = input("Enter range to show: ")
-    bean_range = database.show_bean_range(connection, name)
+    print(f"The best preparation method for {name} is: {best_flavor[0]}")
+
+
+def prompt_delete_drink(connection):
+    name = input("Enter drink name to delete: ")
+    drink_delete = database.delete_drink_by_name(connection, name)
+
+    print("drink deleted")
+
+
+def prompt_drink_rate_range(connection):
+    low = input("Enter min rating to show: ")
+    high = input("Enter max rating to show: ")
+    drinks = database.show_drink_range(connection, low, high)
+
+    for drink in drinks:
+        print(f"{drink[1]} ({drink[2]}) - {drink[3]}/100")
 
 
 menu()

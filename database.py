@@ -5,56 +5,55 @@ This is the main mod with the database code in it
 
 import sqlite3
 
-CREATE_BEANS_TABLE = "CREATE TABLE IF NOT EXISTS beans (id INTEGER PRIMARY KEY, name TEXT, method TEXT, rating INTEGER)"
+CREATE_DRINKS_TABLE = "CREATE TABLE IF NOT EXISTS drinks (id INTEGER PRIMARY KEY, name TEXT, flavor TEXT, rating INTEGER)"
 
-INSERT_BEAN = "INSERT INTO beans (name, method, rating) VALUES (?, ?, ?)"
+INSERT_DRINK = "INSERT INTO drinks (name, flavor, rating) VALUES (?, ?, ?)"
 
-GET_ALL_BEANS = "SELECT * FROM beans"
+GET_ALL_DRINKS = "SELECT * FROM drinks"
 
-GET_ALL_BEANS_BY_NAME = "SELECT * FROM beans WHERE name = ?;"
+GET_ALL_DRINKS_BY_NAME = "SELECT * FROM drinks WHERE name = ?;"
 
-GET_BEST_PREPARATION_FOR_BEAN = """
-SELECT * FROM beans 
+GET_BEST_FLAVOR_FOR_DRINK = """
+SELECT * FROM drinks 
 WHERE name = ?
 ORDER BY rating DESC
 LIMIT 1;"""
 
-DELETE_BEAN_BY_NAME = """
-DELETE FROM beans
+DELETE_DRINK_BY_NAME = """
+DELETE FROM drinks
 WHERE name = ?;"""
 
 SHOW_BEAN_RANGE = """
-SELECT * 
-FROM beans
-WHERE rating < ?;"""
+SELECT * FROM drinks
+WHERE rating BETWEEN ? AND ?;"""
 
 def connect():
     return sqlite3.connect("data.db")
 
 def create_tables(connection):
     with connection:
-        connection.execute(CREATE_BEANS_TABLE)
+        connection.execute(CREATE_DRINKS_TABLE)
 
-def add_bean(connection, name, method, rating):
+def add_drink(connection, name, flavor, rating):
     with connection:
-        connection.execute(INSERT_BEAN, (name, method, rating))
+        connection.execute(INSERT_DRINK, (name, flavor, rating))
 
-def get_all_beans(connection):
+def get_all_drinks(connection):
     with connection:
-        return connection.execute(GET_ALL_BEANS).fetchall()
+        return connection.execute(GET_ALL_DRINKS).fetchall()
 
-def get_beans_by_name(connection, name):
+def get_drinks_by_name(connection, name):
     with connection:
-        return connection.execute(GET_ALL_BEANS_BY_NAME, (name,)).fetchall()
+        return connection.execute(GET_ALL_DRINKS_BY_NAME, (name,)).fetchall()
 
-def get_best_preparation_for_bean(connection, name):
+def get_best_flavor_for_drink(connection, name):
     with connection:
-        return connection.execute(GET_BEST_PREPARATION_FOR_BEAN, (name,)).fetchall()
+        return connection.execute(GET_BEST_FLAVOR_FOR_DRINK, (name,)).fetchall()
 
-def delete_bean_by_name(connection, name):
+def delete_drink_by_name(connection, name):
     with connection:
-        return connection.execute(DELETE_BEAN_BY_NAME, (name,)).fetchall()
+        return connection.execute(DELETE_DRINK_BY_NAME, (name,)).fetchall()
 
-def show_bean_range(connection, name):
+def show_drink_range(connection, low, high):
     with connection:
-        return connection.execute(SHOW_BEAN_RANGE, (name,)).fetchall()
+        return connection.execute(SHOW_BEAN_RANGE, (low, high,)).fetchall()
