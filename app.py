@@ -53,7 +53,7 @@ def prompt_see_all_drinks(connection):
         print(f"{drink[1]} ({drink[2]}) - {drink[3]}/100")
 
 #test
-def prompt_find_drink(connection, name):
+def prompt_find_drink(connection):
     name = input("Enter drink name to find: ")
     drinks = database.get_drinks_by_name(connection, name)
 
@@ -61,7 +61,7 @@ def prompt_find_drink(connection, name):
         print(f"{drink[1]} ({drink[2]}) - {drink[3]}/100")
 
 
-def prompt_find_best_flavor(connection, name):
+def prompt_find_best_flavor(connection):
     name = input("Enter drink name to find: ")
     best_flavor = database.get_best_flavor_for_drink(connection, name)
 
