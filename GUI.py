@@ -1,5 +1,8 @@
 import pygame
-import app
+import database
+
+connection = database.connect()
+database.create_tables(connection)
 
 # initializing pygame
 pygame.init()
@@ -16,9 +19,6 @@ icon = pygame.image.load('coffeeIcon.png')
 pygame.display.set_icon(icon)
 
 
- def menuGUI = menu.app()
-
-
 # game loop
 running = True
 while running:
@@ -27,6 +27,10 @@ while running:
     screen.fill((0, 0, 0))
     # background image
     screen.blit(background, (0, 0))
+
+    # Draw white rectangle
+    pygame.draw.rect(screen, (255, 255, 255), (100, 100, 400, 400))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

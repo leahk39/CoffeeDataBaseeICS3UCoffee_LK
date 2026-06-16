@@ -84,4 +84,4 @@ def prompt_drink_rate_range(connection):
         print(f"{drink[1]} ({drink[2]}) - {drink[3]}/100")
 
 
-# menu()
+menu()
